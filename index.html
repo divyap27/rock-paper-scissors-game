@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(#a2d2ff, #bde0fe);
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .choices {
+            margin: 20px 0;
+        }
+
+        button.choice-btn {
+            font-size: 1.5em;
+            margin: 10px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            background-color: #0077b6;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button.choice-btn:hover {
+            transform: scale(1.1);
+            background-color: #023e8a;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: #ffffffaa;
+            padding: 15px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .emoji {
+            font-size: 2em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🪨📄✂️ Rock Paper Scissors</h1>
+    <p>Choose your move:</p>
+
+    <div class="choices">
+        <button class="choice-btn" onclick="playGame('rock')">🪨 Rock</button>
+        <button class="choice-btn" onclick="playGame('paper')">📄 Paper</button>
+        <button class="choice-btn" onclick="playGame('scissors')">✂️ Scissors</button>
+        <button class="choice-btn" onclick="playGame('bomb')">💣 Bomb</button>
+        <button class="choice-btn" onclick="resetGame()">🔄 Reset</button>
+
+    </div>
+
+    <div class="result" id="resultText"></div>
+
+    <script>
+        const getComputerChoice = () => {
+            const choices = ['rock', 'paper', 'scissors'];
+            const randomIndex = Math.floor(Math.random() * 3);
+            return choices[randomIndex];
+        };
+
+        const determineWinner = (player, computer) => {
+            if (player === 'bomb') return '💣 You activated the cheat! You win!';
+
+            if (player === computer) return "🤝 It's a tie!";
+
+            if (player === 'rock') return computer === 'paper' ? '📦 Computer wins!' : '🪨 You win!';
+            if (player === 'paper') return computer === 'scissors' ? '✂️ Computer wins!' : '📄 You win!';
+            if (player === 'scissors') return computer === 'rock' ? '🪨 Computer wins!' : '✂️ You win!';
+        };
+
+        const playGame = (playerChoice) => {
+            const computerChoice = getComputerChoice();
+            const result = determineWinner(playerChoice, computerChoice);
+
+            document.getElementById('resultText').innerHTML = `
+        <div class="emoji">👤 You: ${formatChoice(playerChoice)}<br>🤖 Computer: ${formatChoice(computerChoice)}</div>
+        <br><br>
+        <div>${result}</div>
+      `;
+        };
+
+        const formatChoice = (choice) => {
+            switch (choice) {
+                case 'rock': return '🪨 Rock';
+                case 'paper': return '📄 Paper';
+                case 'scissors': return '✂️ Scissors';
+                case 'bomb': return '💣 Bomb';
+                default: return choice;
+            }
+        };
+        const resetGame = () => {
+            document.getElementById('resultText').innerHTML = '';
+        };
+
+    </script>
+
+</body>
+
+</html>
